@@ -1,15 +1,14 @@
-datasource db {
-  provider = "postgresql" // または mysql, sqlite など
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model jordan_test {
+  id   Int     @id @unique(map: "unique_constraint_name")
+  name String? @db.VarChar(10)
 }
