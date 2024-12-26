@@ -1,0 +1,38 @@
+.completeArea {
+    border: 2px solid #4aa3e0;
+    width: 400px;
+    min-height: 200px;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 8px;
+    background-color: #e3f2fd;
+}
+
+.title {
+    text-align: center;
+    margin-top: 0;
+    font-weight: bold;
+}
+
+.listRow {
+    display: flex;
+    align-items: center;
+}
+
+.todoItem {
+    margin: 6px;
+}
+
+.button {
+    border-radius: 8px;
+    border: none;
+    padding: 4px 16px;
+    margin: 0px 2px;
+    background-color: #4aa3e0;
+    color: #fff;
+}
+
+.button:hover {
+    background-color: #3891d3;
+    cursor: pointer;
+}

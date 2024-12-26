@@ -1,0 +1,34 @@
+.inputArea {
+    background-color: #e3f2fd;
+    width: 400px;
+    height: 50px;
+    padding: 8px;
+    margin: 8px;
+    border-radius: 8px;
+}
+
+.button {
+    border-radius: 8px;
+    border: none;
+    padding: 4px 16px;
+    margin: 0px 5px;
+    background-color: #4aa3e0;
+    color: #fff;
+}
+
+.button:hover {
+    background-color: #3891d3;
+    cursor: pointer;
+}
+
+.input {
+    border-radius: 8px;
+    border: none;
+    padding: 6px 16px;
+}
+
+.todoLimitMessage {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+}
