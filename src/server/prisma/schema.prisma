@@ -7,8 +7,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model jordan_test {
-  id   Int     @id @unique(map: "unique_constraint_name")
-  name String? @db.VarChar(10)
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model MCategories {
+  categoryId Int       @id @default(autoincrement()) @map("category_id")
+  userId     Int?      @map("user_id")
+  name       String    @db.VarChar(50)
+  color      String?   @db.VarChar(7)
+  createdAt  DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
+  mUsers     MUsers?   @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  tTasks     TTasks[]
+
+  @@map("m_categories")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model MTags {
+  tagId     Int         @id @default(autoincrement()) @map("tag_id")
+  userId    Int?        @map("user_id")
+  name      String      @db.VarChar(30)
+  createdAt DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
+  mUsers    MUsers?     @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  tTaskTags TTaskTags[]
+
+  @@map("m_tags")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model MUsers {
+  userId       Int           @id @default(autoincrement()) @map("user_id")
+  username     String        @unique @db.VarChar(50)
+  email        String        @unique @db.VarChar(255)
+  passwordHash String        @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime?     @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime?     @default(now()) @map("updated_at") @db.Timestamp(6)
+  mCategories  MCategories[]
+  mTags        MTags[]
+  tTasks       TTasks[]
+
+  @@map("m_users")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model TTaskTags {
+  taskId Int    @map("task_id")
+  tagId  Int    @map("tag_id")
+  mTags  MTags  @relation(fields: [tagId], references: [tagId], onDelete: NoAction, onUpdate: NoAction)
+  tTasks TTasks @relation(fields: [taskId], references: [taskId], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([taskId, tagId])
+  @@map("t_task_tags")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model TTasks {
+  taskId      Int          @id @default(autoincrement()) @map("task_id")
+  userId      Int?         @map("user_id")
+  categoryId  Int?         @map("category_id")
+  title       String       @db.VarChar(100)
+  description String?
+  dueDate     DateTime?    @map("due_date") @db.Timestamp(6)
+  priority    Int?
+  isCompleted Boolean?     @default(false) @map("is_completed")
+  completedAt DateTime?    @map("completed_at") @db.Timestamp(6)
+  createdAt   DateTime?    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime?    @default(now()) @map("updated_at") @db.Timestamp(6)
+  tTaskTags   TTaskTags[]
+  mCategories MCategories? @relation(fields: [categoryId], references: [categoryId], onDelete: NoAction, onUpdate: NoAction)
+  mUsers      MUsers?      @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([categoryId], map: "idx_t_tasks_category_id")
+  @@index([dueDate], map: "idx_t_tasks_due_date")
+  @@index([isCompleted], map: "idx_t_tasks_is_completed")
+  @@index([userId], map: "idx_t_tasks_user_id")
+  @@map("t_tasks")
 }
