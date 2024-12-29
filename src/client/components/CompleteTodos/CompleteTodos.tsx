@@ -1,12 +1,29 @@
 import styles from "./CompleteTodos.module.css";
+import { MESSAGES } from "../../constants/messages";
 
-export const CompleteTodos = (props: any) => {
-    const { todos, onClickBack } = props;
+/**
+ * CompleteTodosコンポーネントのプロパティ。
+ */
+interface CompleteTodosProps {
+    todos: string[];
+    onClickBack: (index: number) => void;
+}
+
+/**
+ * 完了したTODOアイテムを表示するためのCompleteTodosコンポーネント。
+ *
+ * @param {CompleteTodosProps} props - コンポーネントのプロパティ。
+ * @returns {JSX.Element} レンダリングされたコンポーネント。
+ */
+export const CompleteTodos: React.FC<CompleteTodosProps> = ({
+    todos,
+    onClickBack,
+}) => {
     return (
         <div className={styles.completeArea}>
-            <p className={styles.title}>完了のTODO</p>
+            <p className={styles.title}>{MESSAGES.TODO.COMPLETE_TODOS.TITLE}</p>
             <ul>
-                {todos.map((todo: any, index: any) => (
+                {todos.map((todo, index) => (
                     <li key={todo}>
                         <div className={styles.listRow}>
                             <p className={styles.todoItem}>{todo}</p>
@@ -14,7 +31,7 @@ export const CompleteTodos = (props: any) => {
                                 className={styles.button}
                                 onClick={() => onClickBack(index)}
                             >
-                                戻す
+                                {MESSAGES.TODO.COMPLETE_TODOS.BACK_BUTTON}
                             </button>
                         </div>
                     </li>
