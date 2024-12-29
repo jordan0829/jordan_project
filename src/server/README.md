@@ -1,4 +1,4 @@
-DB に変更があった場合、以下を実施して prisma client を生成する。
+# DB に変更があった場合、以下を実施して prisma client を生成する。
 
 // 1. DB の変更を schema へ反映
 npx prisma db pull
@@ -9,3 +9,8 @@ npx prisma-case-format
 
 // 3. prisma client の生成
 npx prisma generate
+
+# ローカル DB に接続できない場合、以下で起動する。
+
+// PostgreSQL サービスの起動
+sudo service postgresql start
