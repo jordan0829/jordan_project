@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
-
+import Link from "next/link";
 export default function Home() {
     return (
         <StrictMode>
-            <a href="./todo/">TODOページへ</a>
+            <Link href="./todo/">TODOページへ</Link>
         </StrictMode>
     );
 }
